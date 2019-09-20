@@ -4,7 +4,11 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Auth\AuthenticationException;
+use App\Exceptions\MessageException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Illuminate\Session\TokenMismatchException;
+use Message;
 
 class Handler extends ExceptionHandler
 {
@@ -44,6 +48,17 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($exception instanceof MessageException) {
+            Message::add('danger', $exception->getMessage());
+            return redirect()->back()->withInput($request->except('_token'));
+        } elseif ($exception instanceof TokenMismatchException) {
+            if ($request->expectsJson()) {
+                $exception = new HttpException(419, $exception->getMessage());
+            } else {
+                Message::warning('Votre session a expirée.<br>Veuillez réitérer votre demande.');
+                return redirect()->back()->withInput($request->except('_token'));
+            }
+        }
         return parent::render($request, $exception);
     }
 
@@ -60,6 +75,12 @@ class Handler extends ExceptionHandler
             return response()->json(['error' => 'Unauthenticated.'], 401);
         }
 
-        return redirect()->guest(route('login'));
+        if ($exception->guards()[0] === 'admin') {
+            $login_route = 'admin.login';
+        } else {
+            $login_route = 'login';
+        }
+
+        return redirect()->guest(route($login_route));
     }
 }

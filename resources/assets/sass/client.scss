@@ -1,0 +1,114 @@
+$main-font: 'Roboto';
+
+@font-face {
+    font-family: $main-font;
+    font-style: normal;
+    font-weight: 400;
+    src: url('../fonts/roboto.woff') format('woff');
+}
+
+
+$main-color: #333333;
+$my-color: #7B7B7B;
+
+$theme-colors: (
+    'mycolor': $my-color,
+);
+
+// $primary: #4BBDCA;
+// $success: #B7E345;
+// $warning: #eaa167;
+// $danger: #e64545;
+// $info: #aad9d6;
+
+$font-family-base: $main-font;
+$body-color: $main-color;
+
+// $btn-border-radius: 0;
+
+// $component-active-bg: $orange-color;
+// $input-border-color: $primary;
+// $enable-rounded: false;
+
+// $font-size-base: 0.9rem;
+
+// $spacer: 1.5rem;
+
+@import 'bootstrap';
+
+@each $color, $value in $theme-colors {
+    .input-#{$color} {
+        border: 1px solid $value;
+    }
+    .input-#{$color}:focus {
+        box-shadow: 0 0 0 $input-btn-focus-width rgba($value, .25);
+        border: 1px solid lighten($value, 25%);
+    }
+    .btn-outline-#{$color}, .btn-outline-#{$color}:active, .btn-outline-#{$color}:focus {
+        color: $value !important;
+    }
+    .btn-outline-#{$color}:hover {
+        color: white !important;
+    }
+}
+
+.tg-0 {
+    font-size: 1rem;
+}
+.tg-1 {
+    font-size: 1.1rem;
+}
+.tg-2 {
+    font-size: 1.2rem;
+}
+.tg-3 {
+    font-size: 1.3rem;
+}
+.tg-4 {
+    font-size: 1.4rem;
+}
+
+@media (min-width: 576px) {
+    .tg-1 {
+        font-size: 1.2rem;
+    }
+    .tg-2 {
+        font-size: 1.3rem;
+    }
+    .tg-3 {
+        font-size: 1.4rem;
+    }
+    .tg-4 {
+        font-size: 1.5rem;
+    }
+}
+
+@media (min-width: 768px) {
+    .tg-1 {
+        font-size: 1.3rem;
+    }
+    .tg-2 {
+        font-size: 1.4rem;
+    }
+    .tg-3 {
+        font-size: 1.5rem;
+    }
+    .tg-4 {
+        font-size: 1.6rem;
+    }
+}
+
+@media (min-width: 992px) {
+    .tg-1 {
+        font-size: 1.4rem;
+    }
+    .tg-2 {
+        font-size: 1.5rem;
+    }
+    .tg-3 {
+        font-size: 1.6rem;
+    }
+    .tg-4 {
+        font-size: 1.7rem;
+    }
+}

@@ -10,4 +10,15 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
+    function __get($name)
+    {
+        if ($name === 'client') {
+            return Auth::guard('client')->user();
+        } elseif ($name === 'admin') {
+            return Auth::guard('admin')->user();
+        }
+        
+        return $this->{$name};
+    }
 }
